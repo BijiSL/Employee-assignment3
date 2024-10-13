@@ -2,12 +2,12 @@
 var express=require("express");
 var morgan=require("morgan");
 require("dotenv").config();
-const employeeRoute=require('employeeRoute');
+// const employeeRoute=require('employeeRoute');
 var app=express();
 app.use(morgan("dev"));
 app.use(express.json());
 //Task 2 : write api with error handling and appropriate api mentioned in the TODO below
-app.use('/api',employeeRoute);
+// app.use('/api',employeeRoute);
 app.listen(process.env.port,()=>{
     console.log(`Listening to port ${process.env.port}`)
 })
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname+'/dist/FrontEnd')));
 //  Task2: create mongoDB connection 
 
 const mongoose=require("mongoose");
-const employeeModel = require("./model/employeeModel");
+// const employeeModel = require("./model/employeeModel");
 mongoose
 .connect(process.env.mongo_url)
 .then(() => {
@@ -79,13 +79,13 @@ app.post('/api/employeelist',async(req,res)=>{
         var data=new employeeModel(item);
         await data.save();
         data=JSON.stringify(await employeeModel.find(),null,2);
-        res.status(200).send(`Data added successfully!!\n${data}`);
+        res.status(200).send("Data added successfully!!\n");
 
     }catch(error){
      res.status(404).send("unable to send data");
     }
 });
-// const employeeModel=mongoose.model('employee',employeeSchema);
+const employeeModel=mongoose.model('employee',employeeSchema);
 
 //TODO: delete a employee data from db by using api '/api/employeelist/:id'
 app.delete('/api/employeelist/:id',async(req,res)=>{
@@ -102,7 +102,7 @@ app.delete('/api/employeelist/:id',async(req,res)=>{
 
 //TODO: Update  a employee data from db by using api '/api/employeelist'
 //Request body format:{name:'',location:'',position:'',salary:''}
-app.put('/api/employeelist',async(req,res)=>{
+app.put('/api/employeelist/:id',async(req,res)=>{
     try{
         await employeeModel.findByIdAndUpdate(req.params.id,req.body);
         res.status(200).send("Updated successfully!!!");
