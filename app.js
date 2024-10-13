@@ -2,12 +2,12 @@
 var express=require("express");
 var morgan=require("morgan");
 require("dotenv").config();
-// const employeeRoute=require('employeeRoute');
+
 var app=express();
 app.use(morgan("dev"));
 app.use(express.json());
 //Task 2 : write api with error handling and appropriate api mentioned in the TODO below
-// app.use('/api',employeeRoute);
+
 app.listen(process.env.port,()=>{
     console.log(`Listening to port ${process.env.port}`)
 })
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname+'/dist/FrontEnd')));
 //  Task2: create mongoDB connection 
 
 const mongoose=require("mongoose");
-// const employeeModel = require("./model/employeeModel");
+
 mongoose
 .connect(process.env.mongo_url)
 .then(() => {
